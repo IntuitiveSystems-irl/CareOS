@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
+  /* ── Page size — top-level so all browsers respect it ── */
+  @page {
+    size: A4 portrait;
+    margin: 16mm 14mm 16mm 14mm;
+  }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -267,20 +272,17 @@
 
   /* ── Print / PDF ── */
   @media print {
-    @page {
-      size: A4;
-      margin: 18mm 16mm 18mm 16mm;
+    /* Force color rendering */
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      transition: none !important;
     }
-    @page :first {
-      margin-top: 12mm;
-    }
-
-    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
     body {
       background: #f7f3eb !important;
-      font-size: 11pt;
-      line-height: 1.5;
+      font-size: 9pt;
+      line-height: 1.45;
     }
 
     .page {
@@ -288,86 +290,165 @@
       padding: 0;
     }
 
-    /* Header stays together on page 1 */
+    /* ── Page break structure ──
+       Header  → new page after
+       Each section-label → new page before
+       hr → hidden (section-label handles rhythm)
+    */
     .ds-header {
-      page-break-after: always;
       break-after: page;
+      page-break-after: always;
+      border-bottom: none;
       padding-bottom: 0;
       margin-bottom: 0;
-      border-bottom: none;
     }
 
-    /* Each top-level section starts on a new page */
+    hr { display: none; }
+
     .section-label {
-      page-break-before: always;
       break-before: page;
+      page-break-before: always;
       margin-top: 0;
-      padding-top: 8pt;
+      padding-top: 4pt;
+      font-size: 8pt;
     }
 
-    /* Never break inside a card group or specimen */
+    /* card-groups: avoid break inside short ones; allow break in tall ones */
     .card-group {
-      page-break-inside: avoid;
+      margin-bottom: 14pt;
       break-inside: avoid;
-      margin-bottom: 20pt;
+      page-break-inside: avoid;
     }
 
+    .card-group-title { font-size: 11pt; break-after: avoid; page-break-after: avoid; }
+    .card-group-sub   { font-size: 8pt;  break-after: avoid; page-break-after: avoid; }
+    .usage-note       { font-size: 7.5pt; }
+
+    /* specimen boxes */
     .specimen {
-      page-break-inside: avoid;
+      padding: 14pt;
       break-inside: avoid;
+      page-break-inside: avoid;
     }
 
-    /* Never orphan a card-group title from its content */
-    .card-group-title,
-    .card-group-sub {
-      page-break-after: avoid;
-      break-after: avoid;
-    }
-
-    /* Never break inside rows/grids */
+    /* ── Flatten grids/flex to single column for print ──
+       This is the key fix: grids that are wider than a page
+       become stacked rows, each of which is short enough to
+       break cleanly. */
+    .swatch-row,
     .logo-row,
     .do-dont,
-    .swatch-row,
     .step-row,
     .surface-row,
     .radius-row,
-    .spacing-row,
     .btn-row,
     .badge-row,
     .field-row,
-    .stat-tiles,
-    .type-table tr,
-    .app-shell {
-      page-break-inside: avoid;
-      break-inside: avoid;
+    .stat-tiles {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8pt !important;
     }
 
-    /* Sidebar stays with app-main */
-    .app-shell {
-      page-break-inside: avoid;
-      break-inside: avoid;
+    /* Swatches: 2-per-row in print */
+    .swatch {
+      flex: 0 0 calc(50% - 6pt) !important;
+      min-width: 0 !important;
+      min-height: 80pt !important;
+      padding: 8pt !important;
+    }
+    .swatch-row-sm .swatch {
+      flex: 0 0 calc(33% - 6pt) !important;
+      min-height: 70pt !important;
     }
 
-    /* HR becomes a visual divider only — no page break (section-label handles it) */
-    hr { display: none; }
+    /* Logo lockups: wrap naturally */
+    .lockup { flex: 0 0 auto; min-width: 160pt; }
 
-    /* Links: show URL after text */
+    /* Do/Don't: side by side if they fit, else stack */
+    .do-dont { gap: 8pt !important; }
+    .do-block, .dont-block { flex: 1 1 160pt; padding: 10pt; }
+
+    /* Step cards: 1 per row in print */
+    .step-row { flex-direction: column !important; }
+    .step-card { min-height: 0 !important; padding: 10pt; }
+    .step-title { font-size: 14pt; }
+    .step-body  { font-size: 8pt; }
+
+    /* Surface comparison: wrap */
+    .surface-row { gap: 8pt !important; }
+    .surface-tile { flex: 1 1 140pt; min-height: 0 !important; padding: 10pt; }
+
+    /* Stat tiles */
+    .stat-tiles { gap: 8pt !important; }
+    .stat-tile  { flex: 1 1 80pt; padding: 8pt; }
+    .tile-num   { font-size: 20pt; }
+
+    /* App shell: stack sidebar above main */
+    .app-shell {
+      flex-direction: column !important;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .sidebar {
+      width: 100% !important;
+      flex-direction: row !important;
+      flex-wrap: wrap !important;
+      gap: 4pt !important;
+      padding: 10pt !important;
+    }
+    .nav-item { padding: 4pt 8pt; font-size: 8pt; }
+    .app-main { padding: 10pt; }
+    .app-main-label { font-size: 7pt; }
+    .tile-label { font-size: 7pt; }
+
+    /* Type table: keep each row together */
+    .type-table tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+      display: table-row;
+    }
+    .type-meta { font-size: 7.5pt; width: 100pt; }
+    .t-96 { font-size: 36pt !important; }
+    .t-60 { font-size: 28pt !important; }
+    .t-34 { font-size: 20pt !important; }
+    .t-24 { font-size: 16pt !important; }
+    .t-19 { font-size: 11pt !important; }
+
+    /* Radius row */
+    .radius-row { flex-wrap: wrap !important; gap: 12pt !important; }
+    .radius-box { flex: 0 0 auto; }
+
+    /* Spacing row */
+    .spacing-row { flex-wrap: wrap !important; align-items: flex-end; gap: 6pt !important; }
+
+    /* EHR dark card row */
+    .ehr-card { padding: 8pt; font-size: 8pt; }
+
+    /* Feature/stat cards */
+    .feature-card { padding: 10pt; }
+    .feature-title { font-size: 12pt; }
+    .feature-body  { font-size: 8pt; }
+    .stat-card { padding: 10pt; }
+    .stat-num-lg { font-size: 32pt; }
+    .stat-desc { font-size: 8pt; }
+
+    /* Inline do/dont code blocks */
+    .do-block p, .dont-block p { font-size: 8pt; }
+    .do-block .stat-num, .dont-block .stat-num { font-size: 14pt; }
+
+    /* Show link URLs */
     .ds-meta a::after {
       content: " (" attr(href) ")";
-      font-size: 8pt;
-      color: rgba(17,17,17,.45);
+      font-size: 7pt;
+      color: rgba(17,17,17,.5);
     }
 
-    /* Remove hover/transition effects */
-    * { transition: none !important; }
-
-    /* Ensure swatches render with color */
-    .swatch, .step-card, .feature-card, .surface-tile,
-    .lockup, .do-block, .dont-block,
-    .sidebar, .stat-tile, .app-card, .ehr-card,
-    .radius-swatch, .spacing-bar {
-      -webkit-print-color-adjust: exact;
-      print-color-adjust: exact;
+    /* Motion section inline blocks */
+    .specimen > div[style*="grid"] {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 8pt !important;
     }
   }
 </style>
