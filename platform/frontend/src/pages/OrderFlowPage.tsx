@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowDown, CheckCircle2, XCircle, Clock, Edit3, Send, ShieldCheck, Stethoscope, User, AlertTriangle, Zap, RefreshCw, FlaskConical, Pill, GitBranch } from 'lucide-react'
+import InquireModal from '../components/InquireModal'
+import { ArrowRight, ArrowUpRight, ArrowDown, CheckCircle2, XCircle, Clock, Edit3, Send, ShieldCheck, Stethoscope, User, AlertTriangle, Zap, RefreshCw, FlaskConical, Pill, GitBranch } from 'lucide-react'
 
 const FONT_STYLE = `@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');`
 
@@ -167,31 +169,35 @@ function AutoDispatch() {
 }
 
 export default function OrderFlowPage() {
+  const [inquireOpen, setInquireOpen] = useState(false)
   return (
     <div style={{ backgroundColor: ink, fontFamily: "'Space Grotesk', system-ui, sans-serif", minHeight: '100vh' }}>
       <style>{FONT_STYLE}</style>
 
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
       {/* Nav */}
-      <header style={{ backgroundColor: 'rgba(17,17,17,0.95)', backdropFilter: 'blur(16px)', borderBottom: '1px solid rgba(255,255,255,0.07)', position: 'sticky', top: 0, zIndex: 50 }}>
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: lime }}>
-              <span style={{ color: ink, fontSize: 12, fontWeight: 700 }}>C</span>
+            <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
+              <span style={{ color: ink, fontSize: 14, fontWeight: 700 }}>C</span>
             </div>
-            <span style={{ color: '#fff', fontSize: 15, fontWeight: 600 }}>CareOS</span>
+            <div className="flex flex-col leading-tight">
+              <span className="text-[15px] font-bold text-white">CareOS</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
+            </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            <Link to="/" className="hover:text-white transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-white transition" style={{ color: '#fff', fontWeight: 600 }}>Order Flow</Link>
-            <Link to="/relational-cds" className="hover:text-white transition">Relational CDS</Link>
-            <Link to="/fhir-standards" className="hover:text-white transition">FHIR Standards</Link>
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
             <Link to="/research" className="hover:text-white transition">Research</Link>
-            <Link to="/web3" className="hover:text-white transition">Data Economy</Link>
-            <Link to="/live" className="hover:text-white transition flex items-center gap-1"><span style={{width:6,height:6,borderRadius:'50%',background:'#c4ff4d',display:'inline-block'}}/>Live</Link>
-            <span style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.2)', display: 'inline-block' }} />
-            <Link to="/ehr" className="hover:text-white transition flex items-center gap-1">EHR Demo <ArrowRight className="w-3 h-3" /></Link>
+            <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+            </Link>
           </nav>
-          <Link to="/login/clinician" className="px-4 py-2 rounded-xl text-[13px] font-semibold transition-all" style={{ backgroundColor: lime, color: ink }}>Try Portal</Link>
+          <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+            Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 

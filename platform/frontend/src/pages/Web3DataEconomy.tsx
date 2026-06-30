@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import InquireModal from '../components/InquireModal'
 import {
   Wallet, Shield, FileCheck, Zap, ArrowRight, ChevronDown, ChevronRight,
   Lock, Database, Coins, Activity, AlertTriangle, CheckCircle2, Circle,
@@ -103,6 +104,7 @@ function FlowStep({ step, last }: { step: typeof FLOW_STEPS[0]; last: boolean })
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Web3DataEconomy() {
+  const [inquireOpen, setInquireOpen] = useState(false)
   return (
     <div className="antialiased bg-[#0a0a0a] text-white min-h-screen selection:bg-[#c4ff4d] selection:text-[#111]">
       <style>{`
@@ -110,30 +112,30 @@ export default function Web3DataEconomy() {
         * { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
       `}</style>
 
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-white/8" style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(18px)' }}>
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
+      <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
               <Wallet className="w-4 h-4 text-[#111]" />
             </div>
             <div className="flex flex-col leading-tight">
               <span className="text-[15px] font-bold text-white">CareOS</span>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-white/30 font-semibold">Data Economy</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-white/50">
-            <Link to="/" className="hover:text-white transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-white transition">Order Flow</Link>
-            <Link to="/relational-cds" className="hover:text-white transition">Relational CDS</Link>
-            <Link to="/fhir-standards" className="hover:text-white transition">FHIR Standards</Link>
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
             <Link to="/research" className="hover:text-white transition">Research</Link>
-            <span className="w-px h-4 bg-white/15" />
-            <Link to="/web3" className="text-[#c4ff4d] font-semibold">Data Economy</Link>
+            <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+            </Link>
           </nav>
-          <a href="https://launchflow.tech/web3/patient/demo" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#c4ff4d] text-[#111] text-[13px] font-bold hover:bg-white transition">
-            Try Demo <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+            Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 

@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Brain, Layers, Network, ArrowRight, BarChart3, Gauge, Target,
+  Brain, Layers, Network, ArrowRight, ArrowUpRight, BarChart3, Gauge, Target,
   MessageSquareText, Clock, ShieldCheck, FlaskConical,
 } from 'lucide-react'
+import InquireModal from '../../components/InquireModal'
 import { researchApi } from './researchApi'
 import type { Study } from './types'
 
 export default function ResearchLanding() {
   const [study, setStudy] = useState<Study | null>(null)
+  const [inquireOpen, setInquireOpen] = useState(false)
 
   useEffect(() => {
     researchApi.getStudy().then(setStudy).catch(() => {})
@@ -19,32 +21,30 @@ export default function ResearchLanding() {
 
   return (
     <div className="min-h-screen bg-warm-50">
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
               <FlaskConical className="w-4 h-4 text-[#111]" />
             </div>
-            <div>
-              <h1 className="text-[15px] font-semibold tracking-tight text-white">CareOS</h1>
-              <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest">Research</p>
+            <div className="flex flex-col leading-tight">
+              <span className="text-[15px] font-bold tracking-tight text-white">CareOS</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-white/60">
-            <Link to="/" className="hover:text-white transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-white transition">Order Flow</Link>
-            <Link to="/relational-cds" className="hover:text-white transition">Relational CDS</Link>
-            <Link to="/fhir-standards" className="hover:text-white transition">FHIR Standards</Link>
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
             <Link to="/research" className="text-[#c4ff4d] font-semibold">Research</Link>
-            <Link to="/web3" className="hover:text-white transition">Data Economy</Link>
-            <Link to="/live" className="hover:text-white transition flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] inline-block"/>Live</Link>
-            <span className="w-px h-4 bg-white/20" />
-            <Link to="/ehr" className="hover:text-white transition flex items-center gap-1">EHR Demo <ArrowRight className="w-3 h-3" /></Link>
+            <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+            </Link>
           </nav>
-          <Link to="/research/dashboard" className="flex items-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition">
-            <BarChart3 className="w-3.5 h-3.5" /> Dashboard
-          </Link>
+          <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+            Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 

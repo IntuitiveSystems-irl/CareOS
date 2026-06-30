@@ -4,6 +4,7 @@ import {
   Network, MousePointerClick, ShieldAlert, GitBranch, ArrowRight, ArrowUpRight,
   Sparkles, Layers, Gauge, Webhook, Server,
 } from 'lucide-react'
+import InquireModal from '../components/InquireModal'
 import { researchApi } from './research/researchApi'
 import type { Patient } from './research/types'
 import RelationalChart from './research/ehr/RelationalChart'
@@ -23,6 +24,7 @@ function Feature({ bg, fg, icon: Icon, title, body }: {
 
 export default function RelationalCdsPage() {
   const [patient, setPatient] = useState<Patient | null>(null)
+  const [inquireOpen, setInquireOpen] = useState(false)
 
   useEffect(() => {
     researchApi.getStudy().then((s) => setPatient(s.patient)).catch(() => {})
@@ -35,34 +37,30 @@ export default function RelationalCdsPage() {
         .font-display { font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif; }
       `}</style>
 
-      {/* Header — matches CareOSLanding style */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#f7f3eb]/85 border-b border-black/5">
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-2xl bg-[#111] flex items-center justify-center">
-              <Network className="w-4 h-4 text-[#c4ff4d]" />
+            <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
+              <Network className="w-4 h-4 text-[#111]" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-[15px] font-bold tracking-tight">Relational CDS</span>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-[#111]/50 font-semibold">CareOS · by LaunchFlow</span>
+              <span className="text-[15px] font-bold tracking-tight text-white">CareOS</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-[#111]/70">
-            <Link to="/" className="hover:text-[#111] transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-[#111] transition">Order Flow</Link>
-            <Link to="/relational-cds" className="text-[#111] font-semibold">Relational CDS</Link>
-            <Link to="/fhir-standards" className="hover:text-[#111] transition">FHIR Standards</Link>
-            <Link to="/research" className="hover:text-[#111] transition">Research</Link>
-            <Link to="/web3" className="hover:text-[#111] transition">Data Economy</Link>
-            <Link to="/live" className="hover:text-[#111] transition flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] inline-block"/>Live</Link>
-            <span className="w-px h-4 bg-black/15" />
-            <Link to="/ehr" className="hover:text-[#111] transition flex items-center gap-1">EHR Demo <ArrowRight className="w-3 h-3" /></Link>
-          </nav>
-          <div className="flex items-center gap-2">
-            <Link to="/login/clinician" className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#111] text-[#c4ff4d] rounded-full text-[13px] font-semibold hover:bg-black transition">
-              Try Portal <ArrowRight className="w-3.5 h-3.5" />
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
+            <Link to="/research" className="hover:text-white transition">Research</Link>
+            <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
             </Link>
-          </div>
+          </nav>
+          <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+            Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 

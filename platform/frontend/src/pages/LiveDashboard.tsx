@@ -8,6 +8,7 @@
  */
 import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
+import InquireModal from '../components/InquireModal'
 import {
   Activity, Globe, Shield, FlaskConical, Pill, AlertTriangle,
   TrendingUp, Users, Zap, ArrowRight, RefreshCw, MapPin,
@@ -124,6 +125,7 @@ function TrendBar({ series }: { series: { week: string; contributions: number }[
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 export default function LiveDashboard() {
+  const [inquireOpen, setInquireOpen] = useState(false)
   const [summary, setSummary] = useState<any>(null)
   const [conditions, setConditions] = useState<any[]>([])
   const [medications, setMedications] = useState<any[]>([])
@@ -171,33 +173,35 @@ export default function LiveDashboard() {
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
         * { font-family: 'Space Grotesk', system-ui, sans-serif; }`}</style>
 
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-white/8" style={{ background: 'rgba(10,10,10,0.92)', backdropFilter: 'blur(18px)' }}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3.5">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#c4ff4d] flex items-center justify-center">
+      <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
               <Activity className="w-4 h-4 text-[#111]" />
             </div>
-            <span className="text-[15px] font-bold">CareOS Live</span>
+            <div className="flex flex-col leading-tight">
+              <span className="text-[15px] font-bold text-white">CareOS</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
+            </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-5 text-[12px] font-medium text-white/50">
-            <Link to="/" className="hover:text-white transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-white transition">Order Flow</Link>
-            <Link to="/fhir-standards" className="hover:text-white transition">FHIR Standards</Link>
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
             <Link to="/research" className="hover:text-white transition">Research</Link>
-            <Link to="/web3" className="hover:text-white transition">Data Economy</Link>
-            <span className="w-px h-3.5 bg-white/15" />
-            <Link to="/live" className="text-[#c4ff4d] font-semibold">Live</Link>
+            <Link to="/live" className="text-[#c4ff4d] font-semibold flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+            </Link>
           </nav>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 text-[11px] text-white/30">
+            <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-white/30">
               <RefreshCw className="w-3 h-3" />
               <span>{lastRefresh.toLocaleTimeString()}</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#c4ff4d]/10 border border-[#c4ff4d]/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse" />
-              <span className="text-[11px] font-bold text-[#c4ff4d]">LIVE</span>
-            </div>
+            <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+              Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       </header>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import InquireModal from '../components/InquireModal'
 import {
   Network, ChevronRight, ChevronDown, CheckCircle2, AlertCircle,
   Circle, ExternalLink, Search, Shield, BookOpen, Zap, Database,
@@ -585,6 +586,7 @@ function filterNodes(nodes: StandardNode[], q: string): StandardNode[] {
 export default function FhirStandardsExplorer() {
   const [query, setQuery] = useState('')
   const [filterCoverage, setFilterCoverage] = useState<Coverage | 'all'>('all')
+  const [inquireOpen, setInquireOpen] = useState(false)
   const stats = countAll(STANDARDS)
   const filtered = filterNodes(STANDARDS, query).filter(n =>
     filterCoverage === 'all' || n.coverage === filterCoverage
@@ -597,29 +599,30 @@ export default function FhirStandardsExplorer() {
         * { font-family: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif; }
       `}</style>
 
+      {inquireOpen && <InquireModal onClose={() => setInquireOpen(false)} />}
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-[#f7f3eb]/90 border-b border-black/5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
+      <header className="sticky top-0 z-50 bg-[#111] border-b border-white/10">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 sm:px-10 py-4">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-2xl bg-[#111] flex items-center justify-center">
-              <Network className="w-4 h-4 text-[#c4ff4d]" />
+            <div className="w-9 h-9 rounded-2xl bg-[#c4ff4d] flex items-center justify-center">
+              <Network className="w-4 h-4 text-[#111]" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-[15px] font-bold tracking-tight">CareOS</span>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-[#111]/50 font-semibold">FHIR Standards Explorer</span>
+              <span className="text-[15px] font-bold tracking-tight text-white">CareOS</span>
+              <span className="text-[10px] uppercase tracking-[0.18em] text-white/40 font-semibold">by LaunchFlow</span>
             </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-[#111]/60">
-            <Link to="/" className="hover:text-[#111] transition">Home</Link>
-            <Link to="/order-flow" className="hover:text-[#111] transition">Order Flow</Link>
-            <Link to="/relational-cds" className="hover:text-[#111] transition">Relational CDS</Link>
-            <Link to="/fhir-standards" className="text-[#111] font-semibold">FHIR Standards</Link>
-            <Link to="/research" className="hover:text-[#111] transition">Research</Link>
-            <Link to="/web3" className="hover:text-[#111] transition">Data Economy</Link>
-            <Link to="/live" className="hover:text-[#111] transition flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] inline-block"/>Live</Link>
-            <span className="w-px h-4 bg-black/15" />
-            <Link to="/ehr" className="hover:text-[#111] transition flex items-center gap-1">EHR Demo <ArrowUpRight className="w-3 h-3" /></Link>
+          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/fhir-standards" className="text-[#c4ff4d] font-semibold">FHIR</Link>
+            <Link to="/research" className="hover:text-white transition">Research</Link>
+            <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+            </Link>
           </nav>
+          <button onClick={() => setInquireOpen(true)} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+            Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </header>
 
