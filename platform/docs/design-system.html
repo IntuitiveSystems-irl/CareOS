@@ -264,6 +264,112 @@
     .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px; padding: 14px; }
     .stat-tiles { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── Print / PDF ── */
+  @media print {
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+    }
+    @page :first {
+      margin-top: 12mm;
+    }
+
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body {
+      background: #f7f3eb !important;
+      font-size: 11pt;
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    /* Header stays together on page 1 */
+    .ds-header {
+      page-break-after: always;
+      break-after: page;
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    /* Each top-level section starts on a new page */
+    .section-label {
+      page-break-before: always;
+      break-before: page;
+      margin-top: 0;
+      padding-top: 8pt;
+    }
+
+    /* Never break inside a card group or specimen */
+    .card-group {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      margin-bottom: 20pt;
+    }
+
+    .specimen {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Never orphan a card-group title from its content */
+    .card-group-title,
+    .card-group-sub {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    /* Never break inside rows/grids */
+    .logo-row,
+    .do-dont,
+    .swatch-row,
+    .step-row,
+    .surface-row,
+    .radius-row,
+    .spacing-row,
+    .btn-row,
+    .badge-row,
+    .field-row,
+    .stat-tiles,
+    .type-table tr,
+    .app-shell {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Sidebar stays with app-main */
+    .app-shell {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* HR becomes a visual divider only — no page break (section-label handles it) */
+    hr { display: none; }
+
+    /* Links: show URL after text */
+    .ds-meta a::after {
+      content: " (" attr(href) ")";
+      font-size: 8pt;
+      color: rgba(17,17,17,.45);
+    }
+
+    /* Remove hover/transition effects */
+    * { transition: none !important; }
+
+    /* Ensure swatches render with color */
+    .swatch, .step-card, .feature-card, .surface-tile,
+    .lockup, .do-block, .dont-block,
+    .sidebar, .stat-tile, .app-card, .ehr-card,
+    .radius-swatch, .spacing-bar {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
 </style>
 </head>
 <body>
