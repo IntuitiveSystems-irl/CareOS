@@ -191,7 +191,7 @@ function Header({ onInquire }: { onInquire: () => void }) {
           </div>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
-          <a href="#how" className="hover:text-white transition">How it works</a>
+          <Link to="/relational-cds" className="hover:text-white transition">CDS</Link>
           <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
           <Link to="/research" className="hover:text-white transition">Research</Link>
           <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">

@@ -613,7 +613,7 @@ export default function FhirStandardsExplorer() {
             </div>
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
-            <Link to="/" className="hover:text-white transition">How it works</Link>
+            <Link to="/relational-cds" className="hover:text-white transition">CDS</Link>
             <Link to="/fhir-standards" className="text-[#c4ff4d] font-semibold">FHIR</Link>
             <Link to="/research" className="hover:text-white transition">Research</Link>
             <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
