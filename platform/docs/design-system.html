@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareOS Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #111111;
+    --bone: #f7f3eb;
+    --lime: #c4ff4d;
+    --lime-muted: #d6ffaa;
+    --white: #ffffff;
+    --coral: #ff6b5b;
+    --sky: #4d80ff;
+    --sunny: #ffd23f;
+    --blush: #ffd1d1;
+    --aqua: #9ee3db;
+    --deep-teal: #0a3d3a;
+    --violet: #c084fc;
+    --orange: #fb923c;
+    --live: #22a06b;
+    --success: #34d399;
+    --danger: #ff6b5b;
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-soft: 0 2px 15px -3px rgba(0,0,0,.04), 0 4px 6px -4px rgba(0,0,0,.02);
+    --shadow-soft-lg: 0 10px 40px -15px rgba(0,0,0,.06), 0 4px 6px -4px rgba(0,0,0,.02);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bone);
+    color: var(--ink);
+    line-height: 1.5;
+    font-size: 15px;
+  }
+
+  /* ── Layout ── */
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 32px 96px; }
+
+  /* ── Header ── */
+  .ds-header {
+    border-bottom: 1px solid rgba(17,17,17,.1);
+    padding-bottom: 32px;
+    margin-bottom: 56px;
+  }
+  .ds-header-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .logo-tile {
+    width: 44px; height: 44px; background: var(--lime);
+    border-radius: 11px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-tile svg { width: 26px; height: 26px; }
+  .ds-header h1 { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .ds-header p { font-size: 14px; color: rgba(17,17,17,.55); max-width: 640px; line-height: 1.6; }
+  .ds-meta { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .ds-meta a {
+    display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px;
+    border-radius: 9999px; border: 1px solid rgba(17,17,17,.15);
+    font-size: 12px; font-weight: 600; color: var(--ink); text-decoration: none;
+    transition: background .15s;
+  }
+  .ds-meta a:hover { background: rgba(17,17,17,.06); }
+
+  /* ── Section headings ── */
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .18em; color: rgba(17,17,17,.45);
+    margin-bottom: 20px; margin-top: 56px;
+  }
+  .card-group { margin-bottom: 40px; }
+  .card-group-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .card-group-sub { font-size: 13px; color: rgba(17,17,17,.5); margin-bottom: 16px; }
+
+  /* ── Specimen card ── */
+  .specimen {
+    background: white; border-radius: var(--radius-xl);
+    border: 1px solid rgba(17,17,17,.07);
+    padding: 28px; overflow: hidden;
+  }
+  .specimen + .usage-note {
+    font-size: 12px; color: rgba(17,17,17,.4); margin-top: 10px; padding-left: 4px;
+  }
+
+  /* ── Color swatches ── */
+  .swatch-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .swatch {
+    border-radius: var(--radius-md); padding: 12px 14px 10px;
+    min-width: 100px; flex: 1;
+  }
+  .swatch-name { font-size: 13px; font-weight: 700; margin-bottom: 40px; }
+  .swatch-hex { font-size: 12px; opacity: .7; font-family: monospace; }
+  .swatch.dark .swatch-name, .swatch.dark .swatch-hex { color: rgba(255,255,255,.9); }
+  .swatch-row-sm .swatch { min-width: 80px; flex: 0 0 auto; }
+
+  /* ── Logo lockups ── */
+  .logo-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .lockup {
+    border-radius: var(--radius-xl); padding: 24px 28px;
+    display: flex; align-items: center; gap: 12px; flex: 1; min-width: 200px;
+  }
+  .lockup-tile { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .lockup-words { display: flex; flex-direction: column; }
+  .lockup-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1.1; }
+  .lockup-sub { font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .5; margin-top: 2px; }
+  .lockup.dark { background: var(--ink); }
+  .lockup.dark .lockup-name, .lockup.dark .lockup-sub { color: white; }
+  .lockup.light { background: white; border: 1px solid rgba(17,17,17,.08); }
+  .lockup.lime-only { background: var(--lime); min-width: 120px; flex: 0 0 120px; }
+
+  /* ── Do / Don't ── */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .do-block, .dont-block { border-radius: var(--radius-xl); padding: 20px; }
+  .do-block { background: var(--lime); }
+  .dont-block { background: white; box-shadow: 0 4px 24px rgba(0,0,0,.12); }
+  .do-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: rgba(17,17,17,.6); margin-bottom: 12px; }
+  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: rgba(255,80,80,.7); margin-bottom: 12px; }
+  .do-block .stat-num { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--ink); }
+  .dont-block .stat-num { font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--ink); }
+  .do-block p, .dont-block p { font-size: 12px; color: rgba(17,17,17,.6); margin-top: 6px; }
+
+  /* ── Type specimens ── */
+  .type-table { width: 100%; border-collapse: collapse; }
+  .type-table tr { border-bottom: 1px solid rgba(17,17,17,.06); }
+  .type-table tr:last-child { border-bottom: none; }
+  .type-meta { font-size: 11px; color: rgba(17,17,17,.4); padding: 14px 0; white-space: nowrap; width: 140px; font-family: monospace; vertical-align: middle; }
+  .type-sample { padding: 10px 0 10px 20px; vertical-align: middle; }
+  .t-96 { font-family: var(--font-display); font-size: 64px; font-weight: 700; letter-spacing: -0.03em; line-height: .95; }
+  .t-60 { font-family: var(--font-display); font-size: 48px; font-weight: 700; letter-spacing: -0.025em; line-height: .95; }
+  .t-34 { font-family: var(--font-display); font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.05; }
+  .t-24 { font-family: var(--font-display); font-size: 24px; font-weight: 700; letter-spacing: -0.015em; }
+  .t-19 { font-family: var(--font-sans); font-size: 19px; font-weight: 400; line-height: 1.55; }
+  .t-15 { font-family: var(--font-sans); font-size: 15px; font-weight: 400; line-height: 1.6; }
+  .t-13 { font-family: var(--font-sans); font-size: 13px; font-weight: 400; }
+  .t-11 { font-family: var(--font-sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; }
+
+  /* ── Radius scale ── */
+  .radius-row { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
+  .radius-box { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .radius-swatch { background: var(--ink); }
+  .radius-label { font-size: 12px; color: rgba(17,17,17,.5); text-align: center; }
+  .radius-name { font-weight: 700; font-size: 13px; color: var(--ink); }
+
+  /* ── Spacing scale ── */
+  .spacing-row { display: flex; gap: 8px; align-items: flex-end; }
+  .spacing-bar { background: var(--lime); border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+  .spacing-label { font-size: 10px; color: rgba(17,17,17,.5); margin-top: 6px; text-align: center; }
+
+  /* ── Button specimens ── */
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 24px; border-radius: 9999px;
+    font-family: var(--font-sans); font-size: 15px; font-weight: 700;
+    border: none; cursor: pointer; text-decoration: none;
+  }
+  .btn-primary { background: var(--ink); color: white; }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid rgba(17,17,17,.2); }
+  .btn-lime { background: var(--lime); color: var(--ink); }
+  .btn-tag { background: var(--ink); color: white; padding: 8px 16px; font-size: 13px; }
+
+  /* ── Eyebrow / Badge ── */
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 9999px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em;
+  }
+  .eyebrow-dark { background: var(--ink); color: var(--lime); }
+  .eyebrow-outline { background: transparent; border: 1px solid rgba(17,17,17,.2); color: var(--ink); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+  .dot-live { background: var(--live); }
+  .dot-pending { background: var(--sunny); }
+  .dot-planned { background: #bbb; }
+
+  /* ── Step cards ── */
+  .step-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .step-card { border-radius: var(--radius-xl); padding: 24px; min-height: 200px; display: flex; flex-direction: column; }
+  .step-n { font-size: 13px; font-weight: 700; color: rgba(17,17,17,.5); }
+  .step-title { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); margin-top: 20px; line-height: 1.1; }
+  .step-body { font-size: 13px; color: rgba(17,17,17,.65); margin-top: 10px; line-height: 1.55; flex: 1; }
+
+  /* ── Feature card ── */
+  .feature-card { border-radius: var(--radius-xl); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .feature-icon { width: 20px; height: 20px; color: var(--sky); }
+  .feature-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.015em; line-height: 1.15; }
+  .feature-body { font-size: 13px; color: rgba(17,17,17,.65); line-height: 1.55; }
+
+  /* ── Stat card ── */
+  .stat-card { border-radius: var(--radius-xl); padding: 24px; background: white; }
+  .stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: rgba(17,17,17,.45); }
+  .stat-num-lg { font-family: var(--font-display); font-size: 64px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin-top: 8px; color: var(--ink); }
+  .stat-desc { font-size: 13px; color: rgba(17,17,17,.55); margin-top: 6px; }
+
+  /* ── App shell ── */
+  .app-shell { display: flex; border-radius: var(--radius-xl); overflow: hidden; border: 1px solid rgba(17,17,17,.08); min-height: 360px; }
+  .sidebar { background: var(--ink); width: 220px; flex-shrink: 0; padding: 20px 14px; display: flex; flex-direction: column; gap: 4px; }
+  .sidebar-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .sidebar-logo-tile { width: 32px; height: 32px; background: var(--lime); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .sidebar-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: white; line-height: 1.1; }
+  .sidebar-sub { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: rgba(255,255,255,.35); margin-top: 1px; }
+  .nav-item { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 10px; color: rgba(255,255,255,.5); font-size: 13px; font-weight: 500; cursor: pointer; transition: .15s; }
+  .nav-item.active { background: rgba(196,255,77,.12); color: var(--lime); border: 1px solid rgba(196,255,77,.2); }
+  .nav-item:not(.active):hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); }
+  .nav-icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .app-main { flex: 1; background: var(--bone); padding: 24px; }
+  .app-main-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; color: rgba(17,17,17,.4); margin-bottom: 14px; }
+  .stat-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat-tile { background: white; border-radius: var(--radius-lg); padding: 16px; border: 1px solid rgba(17,17,17,.06); box-shadow: var(--shadow-soft); }
+  .tile-icon { width: 28px; height: 28px; background: var(--bone); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; font-size: 14px; }
+  .tile-num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .tile-label { font-size: 11px; color: rgba(17,17,17,.45); margin-top: 4px; }
+  .app-card { background: white; border-radius: var(--radius-lg); padding: 18px; border: 1px solid rgba(17,17,17,.06); box-shadow: var(--shadow-soft); }
+  .app-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; color: rgba(17,17,17,.4); margin-bottom: 12px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: rgba(17,17,17,.45); }
+  .field input, .field select {
+    padding: 10px 12px; border-radius: var(--radius-md);
+    border: 1px solid rgba(17,17,17,.12); font-family: var(--font-sans);
+    font-size: 14px; color: var(--ink); background: white; outline: none;
+    transition: border-color .15s;
+  }
+  .field input:focus, .field select:focus { border-color: var(--lime); box-shadow: 0 0 0 3px rgba(196,255,77,.15); }
+
+  /* ── EHR card (dark/glass) ── */
+  .ehr-card {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06);
+    border-radius: var(--radius-lg); padding: 18px; color: white;
+  }
+
+  /* ── Patient portal card ── */
+  .patient-card {
+    background: white; border-radius: var(--radius-lg); padding: 18px;
+    border: 1px solid rgba(17,17,17,.08); box-shadow: var(--shadow-soft);
+    transition: box-shadow .2s;
+  }
+  .patient-card:hover { box-shadow: var(--shadow-soft-lg); }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid rgba(17,17,17,.08); margin: 48px 0; }
+
+  /* ── Surface comparison ── */
+  .surface-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .surface-tile { border-radius: var(--radius-xl); padding: 20px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between; }
+  .surface-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .16em; opacity: .55; }
+  .surface-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-top: 8px; line-height: 1.2; }
+  .surface-desc { font-size: 12px; opacity: .6; margin-top: 4px; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .do-dont, .step-row, .surface-row { grid-template-columns: 1fr; }
+    .app-shell { flex-direction: column; }
+    .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 8px; padding: 14px; }
+    .stat-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <div class="ds-header">
+    <div class="ds-header-top">
+      <div class="logo-tile">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4 A12 12 0 1 0 16 28 A12 12 0 0 0 28 22" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M12 15.5C12 13.5 14 12 15.5 13.8C17 12 19 13.5 19 15.5C19 18 15.5 20.5 15.5 20.5C15.5 20.5 12 18 12 15.5Z" fill="#111"/>
+          <line x1="18.5" y1="14.5" x2="23" y2="14.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18.5" y1="16.5" x2="24" y2="16.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="18.5" y1="18.5" x2="22.5" y2="18.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1>CareOS Design System</h1>
+      </div>
+    </div>
+    <p>The brand + UI system for CareOS by LaunchFlow (Business Intuitive Inc.) — an AI-native clinical operating system. Three deliberate surfaces: a loud marketing site, a dense dark EHR portal, and a warm patient portal. One accent, one typeface.</p>
+    <div class="ds-meta">
+      <a href="https://github.com/IntuitiveSystems-irl/CareOS" target="_blank">↗ GitHub: IntuitiveSystems-irl/CareOS</a>
+      <a href="https://launchflow.tech" target="_blank">↗ launchflow.tech</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       BRAND
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Brand</div>
+
+  <!-- Logo lockups -->
+  <div class="card-group">
+    <div class="card-group-title">Logo lockups</div>
+    <div class="card-group-sub">Lime tile + wordmark — on ink and on bone</div>
+    <div class="specimen">
+      <div class="logo-row">
+        <div class="lockup dark">
+          <div class="lockup-tile" style="background:var(--lime)">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 4 A12 12 0 1 0 16 28 A12 12 0 0 0 28 22" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><path d="M12 15.5C12 13.5 14 12 15.5 13.8C17 12 19 13.5 19 15.5C19 18 15.5 20.5 15.5 20.5C15.5 20.5 12 18 12 15.5Z" fill="#111"/><line x1="18.5" y1="14.5" x2="23" y2="14.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="16.5" x2="24" y2="16.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="18.5" x2="22.5" y2="18.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="lockup-words">
+            <span class="lockup-name">CareOS</span>
+            <span class="lockup-sub">by LaunchFlow</span>
+          </div>
+        </div>
+        <div class="lockup light">
+          <div class="lockup-tile" style="background:var(--lime)">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 4 A12 12 0 1 0 16 28 A12 12 0 0 0 28 22" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><path d="M12 15.5C12 13.5 14 12 15.5 13.8C17 12 19 13.5 19 15.5C19 18 15.5 20.5 15.5 20.5C15.5 20.5 12 18 12 15.5Z" fill="#111"/><line x1="18.5" y1="14.5" x2="23" y2="14.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="16.5" x2="24" y2="16.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="18.5" x2="22.5" y2="18.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="lockup-words">
+            <span class="lockup-name" style="color:var(--ink)">CareOS</span>
+            <span class="lockup-sub" style="color:var(--ink)">Care Operations</span>
+          </div>
+        </div>
+        <div class="lockup lime-only" style="justify-content:center">
+          <svg width="48" height="48" viewBox="0 0 32 32" fill="none"><path d="M16 4 A12 12 0 1 0 16 28 A12 12 0 0 0 28 22" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><path d="M12 15.5C12 13.5 14 12 15.5 13.8C17 12 19 13.5 19 15.5C19 18 15.5 20.5 15.5 20.5C15.5 20.5 12 18 12 15.5Z" fill="#111"/><line x1="18.5" y1="14.5" x2="23" y2="14.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="16.5" x2="24" y2="16.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="18.5" x2="22.5" y2="18.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">Mark = C-arc + heart + speed-lines in assets/careos-logo.png. Always use the Logo component; never redraw.</p>
+  </div>
+
+  <!-- Color-block principle -->
+  <div class="card-group">
+    <div class="card-group-title">Color-block principle</div>
+    <div class="card-group-sub">Solid fills + borders — never shadowed white-on-white on marketing</div>
+    <div class="specimen">
+      <div class="do-dont">
+        <div class="do-block">
+          <div class="do-label">✓ Do — flat color block</div>
+          <div class="stat-num">47 min saved per shift</div>
+          <p>Solid fill, ink text, no shadow. Lead with the number.</p>
+        </div>
+        <div class="dont-block">
+          <div class="dont-label">✕ Don't — floating white + shadow</div>
+          <div class="stat-num">Empowering seamless care</div>
+          <p>Drop-shadowed white card with generic copy. Avoid on marketing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three surfaces -->
+  <div class="card-group">
+    <div class="card-group-title">Three surfaces — deliberately different</div>
+    <div class="card-group-sub">Marketing · EHR portal · Patient portal</div>
+    <div class="specimen">
+      <div class="surface-row">
+        <div class="surface-tile" style="background:var(--lime)">
+          <span class="surface-tag">Audience: CIOs, clinics</span>
+          <div>
+            <div class="surface-name">Marketing site</div>
+            <div class="surface-desc">Loud. Full-bleed color blocks. Oversized display type. Evidence-first.</div>
+          </div>
+        </div>
+        <div class="surface-tile" style="background:var(--ink)">
+          <span class="surface-tag" style="color:rgba(255,255,255,.4)">Audience: Clinicians</span>
+          <div>
+            <div class="surface-name" style="color:white">EHR portal</div>
+            <div class="surface-desc" style="color:rgba(255,255,255,.5)">Dark. Dense. Focused — a precision tool.</div>
+          </div>
+        </div>
+        <div class="surface-tile" style="background:white; border:1px solid rgba(17,17,17,.08); box-shadow:var(--shadow-soft)">
+          <span class="surface-tag">Audience: Patients</span>
+          <div>
+            <div class="surface-name">Patient portal</div>
+            <div class="surface-desc">Light. Warm. Soft-shadowed. Reassuring.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">One thread ties all three: lime (#c4ff4d) as the single accent and Space Grotesk as the display typeface.</p>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       COLORS
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Colors</div>
+
+  <!-- Core palette -->
+  <div class="card-group">
+    <div class="card-group-title">Core palette</div>
+    <div class="card-group-sub">ink · bone · lime — the load-bearing trio</div>
+    <div class="specimen">
+      <div class="swatch-row">
+        <div class="swatch dark" style="background:#111111; min-height:140px">
+          <div class="swatch-name" style="color:white">ink</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.6)">#111111</div>
+        </div>
+        <div class="swatch" style="background:#f7f3eb; border:1px solid rgba(17,17,17,.08); min-height:140px">
+          <div class="swatch-name">bone</div>
+          <div class="swatch-hex">#f7f3eb</div>
+        </div>
+        <div class="swatch" style="background:#c4ff4d; min-height:140px">
+          <div class="swatch-name">lime</div>
+          <div class="swatch-hex">#c4ff4d</div>
+        </div>
+        <div class="swatch" style="background:#ffffff; border:1px solid rgba(17,17,17,.08); min-height:140px">
+          <div class="swatch-name">white</div>
+          <div class="swatch-hex">#ffffff</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section colors -->
+  <div class="card-group">
+    <div class="card-group-title">Section colors</div>
+    <div class="card-group-sub">Full-bleed color blocks — one per section, never gradient</div>
+    <div class="specimen">
+      <div class="swatch-row swatch-row-sm">
+        <div class="swatch dark" style="background:#ff6b5b; min-height:120px; min-width:100px">
+          <div class="swatch-name" style="color:#111">coral</div>
+          <div class="swatch-hex" style="color:rgba(17,17,17,.6)">#ff6b5b</div>
+        </div>
+        <div class="swatch dark" style="background:#4d80ff; min-height:120px; min-width:100px">
+          <div class="swatch-name" style="color:white">sky</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.7)">#4d80ff</div>
+        </div>
+        <div class="swatch" style="background:#ffd23f; min-height:120px; min-width:100px">
+          <div class="swatch-name">sunny</div>
+          <div class="swatch-hex">#ffd23f</div>
+        </div>
+        <div class="swatch" style="background:#ffd1d1; min-height:120px; min-width:100px">
+          <div class="swatch-name">blush</div>
+          <div class="swatch-hex">#ffd1d1</div>
+        </div>
+        <div class="swatch" style="background:#9ee3db; min-height:120px; min-width:100px">
+          <div class="swatch-name">aqua</div>
+          <div class="swatch-hex">#9ee3db</div>
+        </div>
+        <div class="swatch dark" style="background:#0a3d3a; min-height:120px; min-width:100px">
+          <div class="swatch-name" style="color:white">deep-teal</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.6)">#0a3d3a</div>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">Coral = burden/urgency · Sky = cloud/interop · Sunny = proof/evidence · Blush = closing CTAs · Aqua + deep-teal = comparison pair</p>
+  </div>
+
+  <!-- Status & accents -->
+  <div class="card-group">
+    <div class="card-group-title">Status &amp; accents</div>
+    <div class="card-group-sub">Lifecycle states + secondary accents</div>
+    <div class="specimen">
+      <div class="swatch-row swatch-row-sm">
+        <div class="swatch dark" style="background:#22a06b; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="color:white; font-size:11px; letter-spacing:.14em; text-transform:uppercase">LIVE</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.7)">#22a06b</div>
+        </div>
+        <div class="swatch dark" style="background:#34d399; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="color:white; font-size:11px; letter-spacing:.14em; text-transform:uppercase">SUCCESS</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.7)">#34d399</div>
+        </div>
+        <div class="swatch" style="background:#ffd23f; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="font-size:11px; letter-spacing:.14em; text-transform:uppercase">PENDING</div>
+          <div class="swatch-hex">#ffd23f</div>
+        </div>
+        <div class="swatch dark" style="background:#ff6b5b; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="color:#111; font-size:11px; letter-spacing:.14em; text-transform:uppercase">DANGER</div>
+          <div class="swatch-hex" style="color:rgba(17,17,17,.6)">#ff6b5b</div>
+        </div>
+        <div class="swatch dark" style="background:#c084fc; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="color:white; font-size:11px; letter-spacing:.14em; text-transform:uppercase">ON-CHAIN</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.7)">#c084fc</div>
+        </div>
+        <div class="swatch dark" style="background:#fb923c; min-height:110px; min-width:90px">
+          <div class="swatch-name" style="color:white; font-size:11px; letter-spacing:.14em; text-transform:uppercase">SECURITY</div>
+          <div class="swatch-hex" style="color:rgba(255,255,255,.7)">#fb923c</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       SPACING
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Spacing</div>
+
+  <!-- Radius scale -->
+  <div class="card-group">
+    <div class="card-group-title">Radius scale</div>
+    <div class="card-group-sub">Icon tiles → app cards → marketing panels → full pills</div>
+    <div class="specimen">
+      <div class="radius-row">
+        <div class="radius-box">
+          <div class="radius-swatch" style="width:64px;height:64px;border-radius:8px"></div>
+          <div class="radius-label"><span class="radius-name">sm</span><br/>8px</div>
+        </div>
+        <div class="radius-box">
+          <div class="radius-swatch" style="width:80px;height:80px;border-radius:12px"></div>
+          <div class="radius-label"><span class="radius-name">md</span><br/>12px</div>
+        </div>
+        <div class="radius-box">
+          <div class="radius-swatch" style="width:96px;height:96px;border-radius:16px"></div>
+          <div class="radius-label"><span class="radius-name">lg</span><br/>16px</div>
+        </div>
+        <div class="radius-box">
+          <div class="radius-swatch" style="width:112px;height:112px;border-radius:24px"></div>
+          <div class="radius-label"><span class="radius-name">xl</span><br/>24px</div>
+        </div>
+        <div class="radius-box">
+          <div style="width:80px;height:40px;background:var(--lime);border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink)">pill</div>
+          <div class="radius-label"><span class="radius-name">full</span><br/>9999px</div>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">8px = icon tiles · 12px = inputs, small cards · 16px = app cards, buttons · 24px = marketing panels · 9999px = all CTAs and badges</p>
+  </div>
+
+  <!-- Spacing scale -->
+  <div class="card-group">
+    <div class="card-group-title">Spacing scale</div>
+    <div class="card-group-sub">4px base — section rhythm py-24/py-32 (96–128px)</div>
+    <div class="specimen">
+      <div class="spacing-row">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:8px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">2·8</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:16px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">4·16</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:24px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">6·24</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:32px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">8·32</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:48px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">12·48</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:64px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">16·64</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+          <div class="spacing-bar" style="width:32px;height:80px;border-radius:4px 4px 0 0"></div>
+          <div class="spacing-label">20·80</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       TYPE
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Type</div>
+
+  <!-- Body & UI — Inter -->
+  <div class="card-group">
+    <div class="card-group-title">Body &amp; UI — Inter</div>
+    <div class="card-group-sub">Prose, UI text, labels and mono</div>
+    <div class="specimen" style="background:#f0ece4">
+      <table class="type-table">
+        <tr>
+          <td class="type-meta">19 lead</td>
+          <td class="type-sample"><span class="t-19">A patient-visible workflow transparency model.</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">15 body</td>
+          <td class="type-sample"><span class="t-15">CareOS routes intake, orders, results, and records through a patient-mediated FHIR exchange.</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">13 ui</td>
+          <td class="type-sample"><span class="t-13">Send Access Request · Order Composer · Work Queue</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">11 label</td>
+          <td class="type-sample"><span class="t-11">Patient-mediated exchange</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Display — Space Grotesk -->
+  <div class="card-group">
+    <div class="card-group-title">Display — Space Grotesk</div>
+    <div class="card-group-sub">Headings: tight tracking, near-1.0 line height</div>
+    <div class="specimen" style="background:#f0ece4">
+      <table class="type-table">
+        <tr>
+          <td class="type-meta">96 / −0.03em</td>
+          <td class="type-sample"><span class="t-96">Works itself.</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">60 / −0.025em</td>
+          <td class="type-sample"><span class="t-60">Field-tested.</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">34 / −0.02em</td>
+          <td class="type-sample"><span class="t-34">Patient Fishbowl™</span></td>
+        </tr>
+        <tr>
+          <td class="type-meta">24 / −0.015em</td>
+          <td class="type-sample"><span class="t-24">Secure Cloud Archive</span></td>
+        </tr>
+      </table>
+    </div>
+    <p class="usage-note">Never mix Inter and Space Grotesk within one heading hierarchy on a page.</p>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       COMPONENTS
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Components</div>
+
+  <!-- Core: Buttons, Badges, Eyebrows -->
+  <div class="card-group">
+    <div class="card-group-title">Core — Buttons, Badges, Logo</div>
+    <div class="card-group-sub">Pills, eyebrows, status, brand lockup</div>
+    <div class="specimen">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(17,17,17,.4);margin-bottom:14px">Buttons</div>
+      <div class="btn-row">
+        <button class="btn btn-primary">Request access →</button>
+        <button class="btn btn-secondary">See how it works</button>
+        <button class="btn btn-lime">⚡ Send order</button>
+        <button class="btn btn-tag">Clinician</button>
+      </div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(17,17,17,.4);margin-top:24px;margin-bottom:14px">Eyebrows &amp; Status</div>
+      <div class="badge-row">
+        <span class="eyebrow eyebrow-dark"><span class="dot dot-live"></span> The Problem</span>
+        <span class="eyebrow eyebrow-dark"><span class="dot dot-live"></span> Live</span>
+        <span class="eyebrow eyebrow-outline"><span class="dot dot-pending"></span> In Progress</span>
+        <span class="eyebrow eyebrow-outline"><span class="dot dot-planned"></span> Planned</span>
+      </div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(17,17,17,.4);margin-top:24px;margin-bottom:14px">Badges</div>
+      <div class="badge-row">
+        <span style="padding:4px 10px;background:rgba(196,255,77,.15);border:1px solid rgba(196,255,77,.3);border-radius:9999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink)">FHIR R4</span>
+        <span style="padding:4px 10px;background:rgba(196,255,77,.15);border:1px solid rgba(196,255,77,.3);border-radius:9999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink)">HIPAA</span>
+        <span style="padding:4px 10px;background:rgba(196,255,77,.15);border:1px solid rgba(196,255,77,.3);border-radius:9999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink)">SMART on FHIR</span>
+        <span style="padding:4px 10px;background:rgba(196,255,77,.15);border:1px solid rgba(196,255,77,.3);border-radius:9999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink)">USCDI v3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- App shell -->
+  <div class="card-group">
+    <div class="card-group-title">App — Sidebar, Cards, Inputs</div>
+    <div class="card-group-sub">Portal nav rail, app cards, stat tiles, fields</div>
+    <div class="specimen" style="padding:0;background:var(--bone)">
+      <div class="app-shell">
+        <div class="sidebar">
+          <div class="sidebar-logo">
+            <div class="sidebar-logo-tile">
+              <svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M16 4 A12 12 0 1 0 16 28 A12 12 0 0 0 28 22" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><path d="M12 15.5C12 13.5 14 12 15.5 13.8C17 12 19 13.5 19 15.5C19 18 15.5 20.5 15.5 20.5C15.5 20.5 12 18 12 15.5Z" fill="#111"/><line x1="18.5" y1="14.5" x2="23" y2="14.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="16.5" x2="24" y2="16.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><line x1="18.5" y1="18.5" x2="22.5" y2="18.5" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="sidebar-name">CareOS</div>
+              <div class="sidebar-sub">Care Operations</div>
+            </div>
+          </div>
+          <div class="nav-item active">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Request Records
+          </div>
+          <div class="nav-item">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Order Composer
+          </div>
+          <div class="nav-item">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h7"/></svg>
+            Work Queue
+          </div>
+          <div class="nav-item">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            Decision Support
+          </div>
+          <div class="nav-item">
+            <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
+            EHR Connections
+          </div>
+        </div>
+        <div class="app-main">
+          <div class="app-main-label">Stat Tiles (Patient Portal)</div>
+          <div class="stat-tiles">
+            <div class="stat-tile">
+              <div class="tile-icon">🔔</div>
+              <div class="tile-num">3</div>
+              <div class="tile-label">Unread notifications</div>
+            </div>
+            <div class="stat-tile">
+              <div class="tile-icon">🛡</div>
+              <div class="tile-num">5</div>
+              <div class="tile-label">Access requests</div>
+            </div>
+            <div class="stat-tile">
+              <div class="tile-icon">📋</div>
+              <div class="tile-num">2</div>
+              <div class="tile-label">Pending approvals</div>
+            </div>
+          </div>
+          <div class="app-card">
+            <div class="app-card-label">App Card + Fields</div>
+            <div class="field-row">
+              <div class="field">
+                <label>Patient</label>
+                <select><option>Jordan Avery</option></select>
+              </div>
+              <div class="field">
+                <label>Purpose</label>
+                <input type="text" value="Continuity of care" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">EHR: fixed 260px sidebar on ink · 16px app cards with soft shadow · lime active state. Patient portal only surface that uses shadows.</p>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       MARKETING COMPONENTS
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Marketing</div>
+
+  <!-- Step cards -->
+  <div class="card-group">
+    <div class="card-group-title">Marketing — Cards &amp; Stats</div>
+    <div class="card-group-sub">Color-blocked step and feature cards</div>
+    <div class="specimen">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(17,17,17,.4);margin-bottom:12px">Step cards (numbered flow)</div>
+      <div class="step-row">
+        <div class="step-card" style="background:var(--sunny)">
+          <span class="step-n">01</span>
+          <div class="step-title">Universal EHR ingest</div>
+          <div class="step-body">HL7 v2 MLLP, FHIR R4, and SMART Backend Services pull in. One canonical patient record on the other side.</div>
+        </div>
+        <div class="step-card" style="background:var(--sky)">
+          <span class="step-n" style="color:rgba(255,255,255,.6)">02</span>
+          <div class="step-title" style="color:white">Tamper-evident audit</div>
+          <div class="step-body" style="color:rgba(255,255,255,.75)">Every PHI event hash-chained (HIPAA §164.312(b)). AES-256-GCM at rest.</div>
+        </div>
+        <div class="step-card" style="background:var(--lime)">
+          <span class="step-n">03</span>
+          <div class="step-title">Patient gets it back</div>
+          <div class="step-body">Cures-Act-compliant, USCDI v3, signed cloud-archive URLs. Patient owns the record.</div>
+        </div>
+      </div>
+
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:rgba(17,17,17,.4);margin:24px 0 12px">Feature card &amp; stat card</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="feature-card" style="background:var(--coral)">
+          <svg class="feature-icon" style="color:white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+          <div class="feature-title" style="color:white">Secure Cloud Archive</div>
+          <div class="feature-body" style="color:rgba(255,255,255,.75)">AWS, GCP, Azure, or self-hosted. Envelope-encrypted, signed retrieval, key rotation.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Intake docs / year</div>
+          <div class="stat-num-lg">16,000</div>
+          <div class="stat-desc">4 docs × 4,000 visits — 30 min each</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audit chain (EHR dark surface) -->
+  <div class="card-group">
+    <div class="card-group-title">EHR surface — dark glass cards</div>
+    <div class="card-group-sub">rgba fill + hairline border — no shadow</div>
+    <div class="specimen" style="background:var(--ink); padding:24px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <div class="ehr-card">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.35);margin-bottom:10px">Action</div>
+          <div style="font-size:15px;font-weight:600;color:white">patient.read</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.45);margin-top:4px">FHIR Patient/$everything</div>
+        </div>
+        <div class="ehr-card">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.35);margin-bottom:10px">Status</div>
+          <div style="display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:rgba(34,160,107,.15);border:1px solid rgba(34,160,107,.3);border-radius:9999px">
+            <span style="width:6px;height:6px;border-radius:50%;background:#22a06b;display:inline-block"></span>
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#22a06b">Live</span>
+          </div>
+        </div>
+        <div class="ehr-card">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.35);margin-bottom:10px">Hash</div>
+          <div style="font-family:monospace;font-size:12px;color:var(--lime);word-break:break-all">a3f7c2d9e1b8…</div>
+        </div>
+      </div>
+    </div>
+    <p class="usage-note">EHR cards: bg rgba(255,255,255,.04) · border rgba(255,255,255,.06) · 16px radius · no shadow. Active border swaps to rgba(196,255,77,.30).</p>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       VOICE & COPY
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Voice &amp; Copy</div>
+
+  <div class="card-group">
+    <div class="card-group-title">Content principles</div>
+    <div class="card-group-sub">Confident, clinical, human. Numbers over adjectives.</div>
+    <div class="specimen">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--live);margin-bottom:10px">✓ Write this</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:10px 14px;background:rgba(196,255,77,.1);border-left:3px solid var(--lime);border-radius:0 8px 8px 0;font-size:14px">"47 min saved per shift"</div>
+            <div style="padding:10px 14px;background:rgba(196,255,77,.1);border-left:3px solid var(--lime);border-radius:0 8px 8px 0;font-size:14px">"~30,000 admin actions/yr automated"</div>
+            <div style="padding:10px 14px;background:rgba(196,255,77,.1);border-left:3px solid var(--lime);border-radius:0 8px 8px 0;font-size:14px">"Clinical work that works itself."</div>
+            <div style="padding:10px 14px;background:rgba(196,255,77,.1);border-left:3px solid var(--lime);border-radius:0 8px 8px 0;font-size:14px">"HIPAA §164.312(b) hash-chained"</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--danger);margin-bottom:10px">✕ Avoid this</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:10px 14px;background:rgba(255,107,91,.08);border-left:3px solid rgba(255,107,91,.4);border-radius:0 8px 8px 0;font-size:14px;color:rgba(17,17,17,.5);text-decoration:line-through">"Empowering patients"</div>
+            <div style="padding:10px 14px;background:rgba(255,107,91,.08);border-left:3px solid rgba(255,107,91,.4);border-radius:0 8px 8px 0;font-size:14px;color:rgba(17,17,17,.5);text-decoration:line-through">"Seamless care journey"</div>
+            <div style="padding:10px 14px;background:rgba(255,107,91,.08);border-left:3px solid rgba(255,107,91,.4);border-radius:0 8px 8px 0;font-size:14px;color:rgba(17,17,17,.5);text-decoration:line-through">"Holistic wellness platform"</div>
+            <div style="padding:10px 14px;background:rgba(255,107,91,.08);border-left:3px solid rgba(255,107,91,.4);border-radius:0 8px 8px 0;font-size:14px;color:rgba(17,17,17,.5);text-decoration:line-through">"Next-generation healthcare"</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding:16px;background:rgba(17,17,17,.04);border-radius:var(--radius-lg)">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(17,17,17,.4);margin-bottom:10px">Casing rules</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <div><strong>Sentence case</strong> — all headings and body copy</div>
+          <div><strong>UPPERCASE</strong> — eyebrow labels only, with 0.16em tracking</div>
+          <div><strong>Title Case</strong> — nav items and product names (CareOS, Patient Fishbowl™)</div>
+          <div><strong>No emoji</strong> in product or marketing copy. ✓ → ™ ⚡ only in badges/bullets.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- ══════════════════════════════════════════════════
+       MOTION
+  ══════════════════════════════════════════════════ -->
+  <div class="section-label">Motion</div>
+
+  <div class="card-group">
+    <div class="card-group-title">Animation tokens</div>
+    <div class="card-group-sub">Framer Motion scroll-reveals — no bounces, no spins</div>
+    <div class="specimen">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="padding:16px;background:white;border-radius:var(--radius-lg);border:1px solid rgba(17,17,17,.08)">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(17,17,17,.4);margin-bottom:8px">fadeIn</div>
+          <div style="font-size:13px;color:var(--ink);margin-bottom:4px">opacity 0 → 1</div>
+          <div style="font-family:monospace;font-size:11px;color:rgba(17,17,17,.45)">0.5s ease-out<br/>once: true</div>
+        </div>
+        <div style="padding:16px;background:white;border-radius:var(--radius-lg);border:1px solid rgba(17,17,17,.08)">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(17,17,17,.4);margin-bottom:8px">slideUp</div>
+          <div style="font-size:13px;color:var(--ink);margin-bottom:4px">opacity + 10px Y</div>
+          <div style="font-family:monospace;font-size:11px;color:rgba(17,17,17,.45)">0.4s ease-out<br/>stagger 0.08*i</div>
+        </div>
+        <div style="padding:16px;background:white;border-radius:var(--radius-lg);border:1px solid rgba(17,17,17,.08)">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(17,17,17,.4);margin-bottom:8px">pulseSoft</div>
+          <div style="font-size:13px;color:var(--ink);margin-bottom:4px">opacity 1→0.7→1</div>
+          <div style="font-family:monospace;font-size:11px;color:rgba(17,17,17,.45)">3s infinite<br/>live dots only</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding:12px 16px;background:rgba(17,17,17,.04);border-radius:var(--radius-md);font-family:monospace;font-size:12px;color:rgba(17,17,17,.6)">
+        easing: cubic-bezier(0.16, 1, 0.3, 1) &nbsp;·&nbsp; hover: 0.2s ease &nbsp;·&nbsp; useInView margin: '-15%'
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top:64px;padding-top:24px;border-top:1px solid rgba(17,17,17,.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:gap;gap:12px">
+    <div style="font-size:12px;color:rgba(17,17,17,.4)">CareOS Design System · Business Intuitive Inc. / LaunchFlow · Reconstructed from <code style="font-size:11px">platform/frontend/src/</code></div>
+    <a href="https://github.com/IntuitiveSystems-irl/CareOS" style="font-size:12px;color:rgba(17,17,17,.5);text-decoration:none" target="_blank">↗ IntuitiveSystems-irl/CareOS</a>
+  </div>
+
+</div>
+</body>
+</html>
