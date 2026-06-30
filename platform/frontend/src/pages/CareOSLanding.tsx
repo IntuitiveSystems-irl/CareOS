@@ -515,15 +515,32 @@ function NetworksSection() {
   return (
     <section ref={ref} className="bg-[#ffd23f]">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-24">
-        <div className="flex items-end justify-between flex-wrap gap-6 mb-12">
-          <div>
-            <Eyebrow color="#111">Coverage</Eyebrow>
-            <h2 className="mt-5 font-display text-[42px] sm:text-[60px] leading-[0.95] tracking-[-0.025em] text-[#111] max-w-3xl">
-              Field-tested.<br />Standards-native.
-            </h2>
+        <div className="mb-12">
+          <Eyebrow color="#111">Intelligence layer</Eyebrow>
+          <h2 className="mt-5 font-display text-[42px] sm:text-[60px] leading-[0.95] tracking-[-0.025em] text-[#111] max-w-3xl">
+            Decisions surface<br />where clinicians work.
+          </h2>
+          <div className="mt-10 grid sm:grid-cols-2 gap-4">
+            <div className="bg-[#111] rounded-3xl px-7 py-8">
+              <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-white/40 mb-3">CDS Hooks</div>
+              <h3 className="text-white font-bold text-[22px] leading-tight mb-3">Cards fire inside Epic &amp; Cerner</h3>
+              <p className="text-white/60 text-[14px] leading-relaxed">CareOS registers as a CDS Hooks provider. When a clinician opens a chart or selects an order, relational safety cards appear inline — no tab-switching, no separate portal.</p>
+              <a href="/relational-cds" className="inline-flex items-center gap-1.5 mt-5 text-[#c4ff4d] text-[13px] font-semibold hover:opacity-80 transition">
+                See CDS console <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+            <div className="bg-white rounded-3xl px-7 py-8">
+              <div className="text-[10px] uppercase tracking-[0.18em] font-bold text-[#111]/40 mb-3">Relational View</div>
+              <h3 className="text-[#111] font-bold text-[22px] leading-tight mb-3">Cross-domain links, not tabs</h3>
+              <p className="text-[#111]/60 text-[14px] leading-relaxed">Medications, allergies, labs, and problems are linked relationally. A conflict surfaces the moment you select a drug — not after you navigate to a separate reconciliation screen.</p>
+              <a href="/relational-cds" className="inline-flex items-center gap-1.5 mt-5 text-[#111] text-[13px] font-semibold hover:opacity-60 transition">
+                Open relational view <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Eyebrow color="#111">EHR coverage</Eyebrow>
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
           {networks.map((n, i) => (
             <motion.div
               key={n.name}
