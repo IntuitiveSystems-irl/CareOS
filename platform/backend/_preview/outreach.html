@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body style="margin: 0; padding: 0; background-color: #faf8f5;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #faf8f5;">
+<tr><td align="center" style="padding: 40px 16px;">
+<table role="presentation" width="580" cellpadding="0" cellspacing="0" style="background: #ffffff; border-radius: 16px; border: 1px solid #e8ebe3; box-shadow: 0 2px 15px -3px rgba(0,0,0,0.04); overflow: hidden;">
+
+<!-- Teal accent bar -->
+<tr><td style="height: 4px; background: linear-gradient(90deg, #4ab4b4, #267a7d);"></td></tr>
+
+<!-- Body -->
+<tr><td style="padding: 40px 40px 32px; font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+
+<div style="text-align: center; margin-bottom: 32px;">
+    <div style="display: inline-block; background: linear-gradient(135deg, #4ab4b4, #267a7d); border-radius: 14px; padding: 14px; margin-bottom: 16px; box-shadow: 0 0 20px rgba(49,153,153,0.12);">
+        <span style="color: white; font-size: 26px; line-height: 1;">&#9829;</span>
+    </div>
+    <h1 style="font-size: 22px; font-weight: 700; color: #111827; margin: 0; letter-spacing: -0.3px;">LaunchFlow</h1>
+    <p style="font-size: 10px; font-weight: 700; color: #319999; text-transform: uppercase; letter-spacing: 2.5px; margin: 6px 0 0;">Health Data Agent</p>
+</div>
+
+
+    <p style="font-size: 15px; color: #374151; line-height: 1.7; margin: 0 0 16px;">Hi Dr. Martinez,</p>
+
+    <p style="font-size: 15px; color: #6b7280; line-height: 1.7; margin: 0 0 16px;">
+        I'm currently studying Clinical Informatics at the University of Washington and have been building
+        a prototype exploring patient-mediated coordination of care workflows.
+    </p>
+
+    <p style="font-size: 15px; color: #6b7280; line-height: 1.7; margin: 0 0 16px;">
+        The system models a patient-controlled interface where individuals can approve record access,
+        review clinical notes, and help route fulfillment tasks (labs, prescriptions, referrals) across
+        providers, pharmacies, and insurers.
+    </p>
+
+    <p style="font-size: 15px; color: #6b7280; line-height: 1.7; margin: 0 0 16px;">
+        The goal is to explore whether giving patients visibility and limited control over these workflows
+        could reduce some of the coordination friction that exists between organizations.
+    </p>
+
+    <p style="font-size: 15px; color: #6b7280; line-height: 1.7; margin: 0 0 24px;">
+        I've put together a small prototype here:
+    </p>
+
+    <div style="text-align: center; margin: 0 0 28px;">
+        <a href="https://launchflow.tech/patient" style="display: inline-block; background: linear-gradient(135deg, #4ab4b4, #267a7d); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-size: 14px; font-weight: 600; box-shadow: 0 0 20px rgba(49,153,153,0.12);">
+            View the Prototype &rarr;
+        </a>
+    </div>
+
+    <!-- EHR Integration FAQ -->
+    <div style="background: linear-gradient(135deg, #f0fafa, #faf8f5); border: 1px solid #d4f1f1; border-radius: 14px; padding: 24px; margin: 0 0 24px;">
+        <p style="font-size: 14px; color: #267a7d; margin: 0 0 14px; font-weight: 700;">How does this work with existing EHR systems?</p>
+        <p style="font-size: 13px; color: #6b7280; line-height: 1.7; margin: 0 0 14px;">
+            The system connects through <strong style="color: #374151;">SMART on FHIR APIs</strong> and functions
+            as a <strong style="color: #374151;">coordination layer</strong> &mdash; it does not replace the EHR.
+        </p>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+            <tr><td style="padding: 5px 0; font-size: 13px; color: #6b7280; line-height: 1.6;">
+                <span style="color: #319999; margin-right: 8px;">&#10003;</span>
+                Reads from EHR systems via standardized FHIR R4 endpoints
+            </td></tr>
+            <tr><td style="padding: 5px 0; font-size: 13px; color: #6b7280; line-height: 1.6;">
+                <span style="color: #319999; margin-right: 8px;">&#10003;</span>
+                Does not write back or modify clinical data
+            </td></tr>
+            <tr><td style="padding: 5px 0; font-size: 13px; color: #6b7280; line-height: 1.6;">
+                <span style="color: #319999; margin-right: 8px;">&#10003;</span>
+                Works alongside Epic, Cerner &amp; MEDITECH &mdash; not instead of them
+            </td></tr>
+            <tr><td style="padding: 5px 0; font-size: 13px; color: #6b7280; line-height: 1.6;">
+                <span style="color: #319999; margin-right: 8px;">&#10003;</span>
+                Patient-scoped OAuth 2.0 &mdash; patients authorize each connection
+            </td></tr>
+        </table>
+    </div>
+
+    <p style="font-size: 15px; color: #6b7280; line-height: 1.7; margin: 0 0 16px;">
+        If you have a moment, I'd be very interested in hearing whether this aligns with challenges
+        you see in interoperability or care coordination.
+    </p>
+
+    <!-- Signature -->
+    <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid #e8ebe3;">
+        <p style="font-size: 15px; color: #374151; line-height: 1.4; margin: 0 0 4px;">Best,</p>
+        <p style="font-size: 15px; color: #111827; font-weight: 600; line-height: 1.4; margin: 0 0 2px;">Lindsay Bachman</p>
+        <p style="font-size: 13px; color: #6b7280; line-height: 1.5; margin: 0;">
+            Clinical Informatics Graduate Student<br />
+            University of Washington
+        </p>
+    </div>
+    
+
+<hr style="border: none; border-top: 1px solid #e8ebe3; margin: 36px 0 24px;" />
+<div style="text-align: center;">
+    <p style="font-size: 11px; color: #9ca3af; line-height: 1.7; margin: 0 0 8px;">
+        University of Washington &middot; Patient Health Data Agent
+    </p>
+    <p style="font-size: 10px; color: #d4daca; margin: 0;">
+        SMART on FHIR &middot; HIPAA Compliant &middot; FHIR R4 &middot; US Core STU7
+    </p>
+</div>
+
+
+<p style="text-align: center; margin-top: 20px;">
+    <a href="https://launchflow.tech/unsubscribe?email=martinez@examplehealth.org" style="font-size: 11px; color: #9ca3af; text-decoration: underline;">
+        Unsubscribe
+    </a>
+</p>
+
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,137 @@
+version: "3.9"
+
+services:
+  # ── 1. Database ──
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in platform/.env (see .env.example)}"
+      POSTGRES_DB: patient_agent
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent -d patient_agent"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── 2. Data Model (migrations + seed) ──
+  data-model:
+    build: ./data-model
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  # ── 3. Backend API ──
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+      ACCESS_FEE_AMOUNT: "25.00"
+      BASE_URL: "http://localhost:8000"
+      AI_LAYER_URL: "http://ai-layer:8100"
+      # Secret injected from platform/.env (git-ignored). Never hardcode here.
+      RESEND_API_KEY: "${RESEND_API_KEY:-}"
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost","http://89.167.38.156","https://launchflow.tech","https://www.launchflow.tech"]'
+      # Shared passcode gating the researcher dashboard + data export. Set on
+      # the host (e.g. export RESEARCH_ADMIN_PASSCODE=...) before deploy.
+      # Empty = researcher access disabled (fail-closed).
+      RESEARCH_ADMIN_PASSCODE: "${RESEARCH_ADMIN_PASSCODE:-}"
+      # ── Integration relay (HL7 MLLP listener + audit + envelope encryption) ──
+      # KEK for envelope-encrypting inbound PHI at rest. MUST be set; generate
+      # with: python -c 'from app.integration.crypto import generate_kek; print(generate_kek())'
+      # Override per-environment (do NOT commit a real key here).
+      LAUNCHFLOW_RELAY_KEK: "${LAUNCHFLOW_RELAY_KEK:-}"
+      RELAY_HL7_MLLP_HOST: "0.0.0.0"
+      RELAY_HL7_MLLP_PORT: "2575"
+      # Comma-separated peer IPs allowed to send HL7 (empty = allow any from
+      # within the docker network; tighten with mutual TLS in production).
+      RELAY_HL7_MLLP_PEERS: "${RELAY_HL7_MLLP_PEERS:-}"
+    ports:
+      - "127.0.0.1:8000:8000"
+      # HL7 MLLP listener — bound to the loopback by default so it's only
+      # reachable via the host's firewall / VPN. Expose to 0.0.0.0 only when
+      # you have firewall rules + mTLS in front of it.
+      - "127.0.0.1:2575:2575"
+    volumes:
+      # Persists Epic Backend Services private key (.data/keys/private.pem)
+      # and per-connection FHIR caches (.data/fhir-{conn_id}.json) across
+      # container rebuilds. Without this, the JWKS kid would rotate on every
+      # `docker compose up --build` and Epic would reject our JWTs.
+      - backend-data:/app/.data
+    depends_on:
+      db:
+        condition: service_healthy
+      data-model:
+        condition: service_completed_successfully
+
+  # ── 4. AI Layer (GPT Actions / consent assistant) ──
+  ai-layer:
+    build: ./ai-layer
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+      BACKEND_URL: "http://backend:8000"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    ports:
+      - "127.0.0.1:8100:8100"
+    depends_on:
+      - backend
+
+  # ── 5. Frontend ──
+  frontend:
+    build: ./frontend
+    # Reload nginx every 6h so renewed Let's Encrypt certs are picked up
+    # without restarting the container (certs are bind-mounted from the host).
+    command: 'sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g ''daemon off;''"'
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+      # Override the image's bundled nginx.conf with the hardened security
+      # config (HSTS, CSP, X-Frame-Options, blocks dotfiles, etc.).
+      - ./nginx-security.conf:/etc/nginx/conf.d/default.conf:ro
+      - /opt/buildops-landing:/usr/share/nginx/buildops:ro
+    depends_on:
+      - backend
+      - ai-layer
+
+  buildops-checkout:
+    image: node:20-alpine
+    working_dir: /app
+    command: node index.js
+    environment:
+      - DATA_DIR=/data
+    volumes:
+      - /opt/buildops-landing/server:/app:ro
+      - buildops-data:/data
+    env_file:
+      - /opt/buildops-landing/server/.env
+    restart: unless-stopped
+    expose:
+      - "3099"
+
+  # ── 6. Certbot (Let's Encrypt issuance + auto-renewal) ──
+  # Attempts renewal every 12h (a no-op until a cert is within 30 days of
+  # expiry) and writes to the same host-mounted /etc/letsencrypt the frontend
+  # reads. First-time issuance is bootstrapped by ./init-letsencrypt.sh, which
+  # solves the nginx<->certbot chicken-and-egg problem.
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    entrypoint: 'sh -c "trap exit TERM; while :; do certbot renew --quiet; sleep 12h & wait $${!}; done"'
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  backend-data:
+  buildops-data:

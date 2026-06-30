@@ -1,0 +1,10 @@
+tunnel: a95c9c15-df12-470c-b2be-cfe9ff869e89
+credentials-file: /Users/me./WebDev/careos/platform/a95c9c15-df12-470c-b2be-cfe9ff869e89.json
+
+ingress:
+  - hostname: launchflow.tech
+    service: http://localhost:8082
+  - hostname: "*.launchflow.tech"
+    service: http://localhost:8082
+
+  - service: http_status:404

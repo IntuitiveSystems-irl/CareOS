@@ -1,0 +1,102 @@
+version: "3.9"
+
+# ── CareOS local + Cloudflare Tunnel compose ─────────────────────────────────
+# Use this instead of docker-compose.yml when running locally and exposing via
+# Cloudflare Tunnel. Cloudflare terminates TLS — no SSL certs or certbot needed.
+#
+# Start the stack:
+#   docker compose -f docker-compose.local.yml up -d --build
+#
+# Then run the tunnel on the host (separate terminal or system service):
+#   cloudflared tunnel run --token $CLOUDFLARE_TUNNEL_TOKEN
+#
+# See platform/ops/local-tunnel.md for full first-time setup.
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  # ── 1. Database ──
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in platform/.env (see .env.example)}"
+      POSTGRES_DB: patient_agent
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agent -d patient_agent"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── 2. Data Model (migrations + seed) ──
+  data-model:
+    build: ./data-model
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  # ── 3. Backend API ──
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+      ACCESS_FEE_AMOUNT: "25.00"
+      # Public-facing URL after Cloudflare Tunnel (used in OAuth redirects, JWKS, etc.)
+      BASE_URL: "https://launchflow.tech"
+      AI_LAYER_URL: "http://ai-layer:8100"
+      RESEND_API_KEY: "${RESEND_API_KEY:-}"
+      CORS_ORIGINS: '["http://localhost:3000","http://localhost","https://launchflow.tech","https://www.launchflow.tech"]'
+      RESEARCH_ADMIN_PASSCODE: "${RESEARCH_ADMIN_PASSCODE:-}"
+      LAUNCHFLOW_RELAY_KEK: "${LAUNCHFLOW_RELAY_KEK:-}"
+      RELAY_HL7_MLLP_HOST: "0.0.0.0"
+      RELAY_HL7_MLLP_PORT: "2575"
+      RELAY_HL7_MLLP_PEERS: "${RELAY_HL7_MLLP_PEERS:-}"
+    ports:
+      - "127.0.0.1:8001:8000"
+      - "127.0.0.1:2575:2575"
+    volumes:
+      - backend-data:/app/.data
+    depends_on:
+      db:
+        condition: service_healthy
+      data-model:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # ── 4. AI Layer (GPT Actions / consent assistant) ──
+  ai-layer:
+    build: ./ai-layer
+    environment:
+      DATABASE_URL: "postgresql://agent:${POSTGRES_PASSWORD}@db:5432/patient_agent"
+      BACKEND_URL: "http://backend:8000"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    ports:
+      - "127.0.0.1:8100:8100"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ── 5. Frontend (HTTP-only nginx — no SSL certs, Cloudflare handles TLS) ──
+  frontend:
+    build: ./frontend
+    command: nginx -g 'daemon off;'
+    ports:
+      # 127.0.0.1 only — cloudflared on the same host reaches it via localhost:8082.
+      - "127.0.0.1:8082:80"
+    volumes:
+      - ./nginx-local.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - ai-layer
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  backend-data:

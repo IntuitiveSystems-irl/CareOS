@@ -1,0 +1,23 @@
+# CareOS Web3 Gateway — Cloudflare Worker
+# Deploy: npx wrangler deploy
+# Docs: https://developers.cloudflare.com/workers/
+
+name = "careos"
+main = "web3-gateway.js"
+compatibility_date = "2024-01-01"
+
+# Routes — matches the existing route in your Cloudflare dashboard
+[[routes]]
+pattern = "careos.launchflow.tech/*"
+zone_name = "launchflow.tech"
+
+# Environment variables — sensitive values go in Cloudflare dashboard
+# Settings → Variables → add WEB3_RPC_URL, WORKER_SECRET, ESCROW_CONTRACT_ADDRESS
+[vars]
+CAREOS_BACKEND_URL = "https://launchflow.tech"
+IPFS_GATEWAY_URL   = "https://3.launchflow.tech"
+
+# KV namespace for caching consent doc CIDs (optional — create via dashboard first)
+# [[kv_namespaces]]
+# binding = "CONSENT_CACHE"
+# id = "YOUR_KV_NAMESPACE_ID"

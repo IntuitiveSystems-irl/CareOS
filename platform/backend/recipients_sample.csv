@@ -1,0 +1,4 @@
+email,name,role
+alice@example.com,Alice Johnson,patient
+bob@example.com,Bob Smith,clinician
+carol@example.com,Carol,general

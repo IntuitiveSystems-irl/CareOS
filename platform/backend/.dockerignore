@@ -1,0 +1,16 @@
+# Never bake secrets or runtime data into the image — these belong in the
+# mounted volume at /app/.data instead.
+.data/
+.env
+
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Local-only
+.DS_Store
+.idea/
+.vscode/

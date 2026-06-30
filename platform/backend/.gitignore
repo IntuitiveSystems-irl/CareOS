@@ -1,0 +1,19 @@
+# Secrets — never commit
+.data/keys/
+.data/keys/*
+.env
+
+# Runtime data files (per-connection FHIR caches)
+.data/fhir-*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editors
+.DS_Store
+.idea/
+.vscode/

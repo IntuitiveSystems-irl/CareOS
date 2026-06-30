@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /fhir/
+Disallow: /auth/
+Disallow: /.well-known/
+Disallow: /login/
+Disallow: /patient/
+Disallow: /clinic/
+
+Sitemap: https://launchflow.tech/sitemap.xml
