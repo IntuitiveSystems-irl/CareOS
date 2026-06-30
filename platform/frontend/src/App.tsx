@@ -39,6 +39,7 @@ import ClinicScanner from './pages/checkin/ClinicScanner'
 import PatientQR from './pages/checkin/PatientQR'
 import LiveDashboard from './pages/LiveDashboard'
 import WaitingRoomBoard from './pages/clinic/WaitingRoomBoard'
+import CareOSPitchDeck from './pages/CareOSPitchDeck'
 
 export default function App() {
   return (
@@ -57,6 +58,7 @@ export default function App() {
       <Route path="/fhir-standards" element={<FhirStandardsExplorer />} />
       <Route path="/web3" element={<Web3DataEconomy />} />
       <Route path="/live" element={<LiveDashboard />} />
+      <Route path="/careospitch" element={<CareOSPitchDeck />} />
       <Route path="/checkin/:token" element={<PatientCheckin />} />
       <Route path="/clinic/scan" element={<ClinicScanner />} />
       <Route path="/clinic/board" element={<WaitingRoomBoard />} />
