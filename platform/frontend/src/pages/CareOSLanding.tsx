@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useInView } from 'framer-motion'
 import {
-  ArrowRight, ArrowUpRight, Cloud, Cpu, Eye, Heart, Lock, User, X,
+  ArrowRight, ArrowUpRight, Cloud, Cpu, Eye, Lock, X,
 } from 'lucide-react'
 import { api } from '../api'
 import careosLogo from '../assets/careos-logo.png'
@@ -322,27 +322,18 @@ function Header({ onInquire }: { onInquire: () => void }) {
             <span className="text-[10px] uppercase tracking-[0.18em] text-white/50 font-semibold">by LaunchFlow</span>
           </div>
         </Link>
-        <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium text-white/70">
-          <Link to="/" className="text-white font-semibold">Home</Link>
-          <Link to="/order-flow" className="hover:text-white transition">Order Flow</Link>
-          <Link to="/relational-cds" className="hover:text-white transition">Relational CDS</Link>
-          <Link to="/fhir-standards" className="hover:text-white transition">FHIR Standards</Link>
+        <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium text-white/70">
+          <a href="#how" className="hover:text-white transition">How it works</a>
+          <Link to="/fhir-standards" className="hover:text-white transition">FHIR</Link>
           <Link to="/research" className="hover:text-white transition">Research</Link>
-          <Link to="/web3" className="hover:text-white transition">Research Network</Link>
-          <Link to="/live" className="hover:text-white transition flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d]"/>Live</Link>
-          <span className="w-px h-4 bg-white/20" />
-          <Link to="/ehr" className="hover:text-white transition flex items-center gap-1">EHR Demo <ArrowRight className="w-3 h-3" /></Link>
+          <Link to="/live" className="hover:text-white transition flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#c4ff4d] animate-pulse"/>Live
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
-          <Link to="/login/patient" className="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-medium text-white/80 hover:text-white transition">
-            <Heart className="w-3.5 h-3.5" /> Patient
-          </Link>
-          <button onClick={onInquire} className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
+          <button onClick={onInquire} className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-[13px] font-semibold text-[#111] bg-[#c4ff4d] hover:bg-[#d4ff6d] transition">
             Inquire now <ArrowUpRight className="w-3.5 h-3.5" />
           </button>
-          <Link to="/login/clinician" className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold text-white bg-white/10 border border-white/20 hover:bg-white/20 transition">
-            <User className="w-3.5 h-3.5" /> Clinician <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </div>
       </div>
     </header>
