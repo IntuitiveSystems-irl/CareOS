@@ -247,8 +247,8 @@ function Hero() {
               transition={{ duration: 0.7, delay: 0.18 }}
               className="mt-7 max-w-lg text-[18px] leading-relaxed text-[#111]/75"
             >
-              CareOS reduces clinic admin work by routing intake, orders, results,
-              records, and research participation through a patient-mediated FHIR exchange.
+              Front-desk coordinators spend 4 hours re-entering data that already exists in other EHRs.
+              CareOS connects those systems and assembles one complete patient record — before the coordinator arrives.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 14 }}
@@ -349,14 +349,14 @@ function HowItWorks() {
   const steps = [
     {
       n: '01',
-      title: 'Universal EHR ingest',
-      copy: 'HL7 v2 MLLP, FHIR R4, and SMART Backend Services pull in. One canonical patient record on the other side.',
+      title: 'One record from every EHR',
+      copy: 'CareOS connects to Epic, Cerner, and legacy HL7 systems simultaneously. Staff see one complete, reconciled patient record — not three portals.',
       color: '#ffd23f',  // sunny
     },
     {
       n: '02',
-      title: 'Tamper-evident audit',
-      copy: 'Every PHI event hash-chained (HIPAA §164.312(b)). Every payload at rest in AES-256-GCM with rotated keys.',
+      title: 'Every touch is recorded',
+      copy: 'Every time a record is accessed or changed, it\'s logged in a chain that can\'t be quietly edited. HIPAA-grade. Cryptographically verifiable.',
       color: '#4d80ff',  // sky
     },
     {
@@ -1088,14 +1088,10 @@ export default function CareOSLanding() {
       <main>
         <Hero />
         <BurdenSection />
-        <HowItWorks />
         <FishbowlSection />
+        <HowItWorks />
         <NetworksSection />
         <InteropSection />
-        <AuditTicker />
-        <BurdenSavedSection />
-        <OsLayerSection />
-        <CioSection />
         <ProductsSection />
         <CtaSection />
       </main>
